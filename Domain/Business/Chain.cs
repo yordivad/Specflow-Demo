@@ -7,27 +7,27 @@ namespace Domain.Business
 {
     public class Chain : IChain
     {
-        private readonly IDictionary<string, Rule> rules;
+        private readonly IDictionary<string, Rule> _rules;
 
         public Chain()
         {
-            rules = new Dictionary<string, Rule>();
+            _rules = new Dictionary<string, Rule>();
         }
 
         public void Add(Rule rule)
         {
-            rules.Add(rule.Name, rule);
+            _rules.Add(rule.Name, rule);
         }
 
         public Rule this[string name]
         {
-            get { return rules[name]; }
+            get { return _rules[name]; }
             set { throw new NotImplementedException(); }
         }
 
         public Rule GetRule(Invoice invoice)
         {
-            var list = rules.Values.ToList();
+            var list = _rules.Values.ToList();
             return list.FirstOrDefault(c => c.Apply(invoice));
         }
     }
