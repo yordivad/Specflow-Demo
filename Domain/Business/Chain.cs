@@ -1,14 +1,13 @@
-﻿using System;
+﻿using Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Domain
+namespace Domain.Business
 {
     public class Chain : IChain
     {
-        private IDictionary<String, Rule> rules;
+        private readonly IDictionary<string, Rule> rules;
 
         public Chain()
         {
@@ -17,7 +16,7 @@ namespace Domain
 
         public void Add(Rule rule)
         {
-            rules.Add(rule.Name,rule);
+            rules.Add(rule.Name, rule);
         }
 
         public Rule this[string name]
@@ -25,7 +24,6 @@ namespace Domain
             get { return rules[name]; }
             set { throw new NotImplementedException(); }
         }
-
 
         public Rule GetRule(Invoice invoice)
         {

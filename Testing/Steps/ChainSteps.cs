@@ -1,4 +1,5 @@
-﻿using Domain;
+﻿using Domain.Business;
+using Domain.Entities;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,11 +22,46 @@ namespace Testing.Steps
         [Given(@"Group of rules")]
         public void GivenGroupOfRules()
         {
-            ScenarioContext.Current.Add("Rule 1", (new Rule { Name = "Rule 1", Step = "Less 200", Role = "Automatic Approver", Apply = (c) => c.Amount < 200 }));
-            ScenarioContext.Current.Add("Rule 2", (new Rule { Name = "Rule 2", Step = "More 200 And Less 400", Role = "Automatic Approver", Apply = (c) => c.Amount > 200 && c.Amount < 400 }));
-            ScenarioContext.Current.Add("Rule 3", (new Rule { Name = "Rule 3", Step = "More 400 and Less 600", Role = "Automatic Approver", Apply = (c) => c.Amount > 400 && c.Amount < 600 }));
-            ScenarioContext.Current.Add("Rule 4", (new Rule { Name = "Rule 4", Step = "More 600 and Less 1000", Role = "Automatic Approver", Apply = (c) => c.Amount > 600 && c.Amount < 1000 }));
-            ScenarioContext.Current.Add("Rule 5", (new Rule { Name = "Rule 5", Step = "More Thant 1000", Role = "John Smith", Apply = (c) => c.Amount > 1000 }));
+            ScenarioContext.Current.Add("Rule 1",
+                (new Rule
+                {
+                    Name = "Rule 1",
+                    Step = "Less 200",
+                    Role = "Automatic Approver",
+                    Apply = (c) => c.Amount < 200
+                }));
+            ScenarioContext.Current.Add("Rule 2",
+                (new Rule
+                {
+                    Name = "Rule 2",
+                    Step = "More 200 And Less 400",
+                    Role = "Automatic Approver",
+                    Apply = (c) => c.Amount > 200 && c.Amount < 400
+                }));
+            ScenarioContext.Current.Add("Rule 3",
+                (new Rule
+                {
+                    Name = "Rule 3",
+                    Step = "More 400 and Less 600",
+                    Role = "Automatic Approver",
+                    Apply = (c) => c.Amount > 400 && c.Amount < 600
+                }));
+            ScenarioContext.Current.Add("Rule 4",
+                (new Rule
+                {
+                    Name = "Rule 4",
+                    Step = "More 600 and Less 1000",
+                    Role = "Automatic Approver",
+                    Apply = (c) => c.Amount > 600 && c.Amount < 1000
+                }));
+            ScenarioContext.Current.Add("Rule 5",
+                (new Rule
+                {
+                    Name = "Rule 5",
+                    Step = "More Thant 1000",
+                    Role = "John Smith",
+                    Apply = (c) => c.Amount > 1000
+                }));
         }
 
         [When(@"I Add")]
@@ -53,10 +89,7 @@ namespace Testing.Steps
         {
             var rules = table.CreateSet<Rule>();
             chain = new Chain();
-            rules.ToList().ForEach(r =>
-            {
-                chain.Add(r);
-            });
+            rules.ToList().ForEach(r => { chain.Add(r); });
 
             chain["Rule 1"].Apply = (c) => c.Amount < 200;
             chain["Rule 2"].Apply = (c) => c.Amount > 400 && c.Amount < 600;
@@ -88,7 +121,6 @@ namespace Testing.Steps
             ScenarioContext.Current.Remove("execute response");
         }
 
-
         [When(@"I Execute Invoice")]
         public void WhenIExecuteInvoice(Table table)
         {
@@ -102,7 +134,5 @@ namespace Testing.Steps
             var rule = ScenarioContext.Current.Get<Rule>("response invoice from John Galt");
             table.CompareToInstance(rule);
         }
-
-
     }
 }
