@@ -1,5 +1,7 @@
 ﻿using Domain.Entities;
 
+//Test
+
 namespace Domain.Business
 {
     public interface IChain
